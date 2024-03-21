@@ -36,7 +36,7 @@ const dbConnect = async () => {
 dbConnect();
 
 const userCollection = client.db("userBlogManagement").collection("users");
-
+const blogCollection = client.db("userBlogManagement").collection("blogs");
 
 
 app.get("/", (req, res) => {
@@ -88,7 +88,14 @@ app.get('/users', async (req, res) => {
   res.send(result);
 });
 
+///get all the blogs 
 
+
+app.get('/blogs', async (req, res) => {
+
+  const result = await blogCollection.find().toArray();
+  res.send(result);
+});
 ///login user api
 
 
