@@ -89,8 +89,68 @@ app.get('/users', async (req, res) => {
 });
 
 
+///login user api
 
 
+app.post('/login', async (req, res) => {
+
+
+  // if (email !== req.decoded.email) {
+  //   return res.status(403).send({ message: 'forbidden access' })
+  // }
+
+  const user = req.body;
+  // insert email if user doesnt exists: 
+  // you can do this many ways (1. email unique, 2. upsert 3. simple checking)
+  console.log("user for debug req",user)
+  const query = { email: user?.email }
+  const  existingUser= await userCollection.findOne(query);
+  // if (existingUser) {
+  //   return res.send({ message: 'user already exists', insertedId: null })
+  // }
+  // const result = await userCollection.insertOne(user);
+
+
+
+
+
+
+
+
+
+
+  if (user.email===existingUser.email && user.password===existingUser.password) {
+    res.send(existingUser);
+  }
+  else {
+    res.send({ message: 'invalid user'});
+
+  }
+  
+})
+
+
+
+
+
+///update user api
+
+app.patch('/updateuser/:id', async (req, res) => {
+  const id = req.params.id;
+  const filter = { _id: new ObjectId(id) };
+
+  const userinfo = req.body;
+  console.log("from body update", userinfo);
+
+  // console.log("new meal", newmeal);
+  const usertoupdate = {
+    $set: userinfo,
+  };
+
+
+  const result = await userCollection.updateOne(filter,  usertoupdate);
+  res.send(result);
+})
 
 
 
