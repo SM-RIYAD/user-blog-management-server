@@ -170,6 +170,13 @@ app.delete("/deleteuser/:id", async (req, res) => {
 });
 
 
+///adding blog api
+app.post("/addblog", async (req, res) => {
+  const newBlog = req.body;
+  console.log(newBlog);
+  const result = await blogCollection.insertOne(newBlog);
+  res.send(result);
+});
 
 
 
